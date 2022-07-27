@@ -27,6 +27,7 @@ After the Codemaker provides their feedback, the Codebreaker guesses again. Game
 
 ## Future Plans
 
+- Give option to play as either codemaker or codebreaker
 - Improve computer logic as codebreaker
 
 ## Acknowledgments
