@@ -20,15 +20,11 @@ class Game
 
   def create_roles
     if @p1_role == 'b'
-      player_one = HumanBreaker.new(self, 1)
-      @players[:breaker] = player_one
-      player_two = @p2_player == 'c' ? ComputerMaker.new(self, 2) : HumanMaker.new(self, 2)
-      @players[:maker] = player_two
+      @players[:breaker] = HumanBreaker.new(self, 1)
+      @players[:maker] = @p2_player == 'c' ? ComputerMaker.new(self, 2) : HumanMaker.new(self, 2)
     else
-      player_one = HumanMaker.new(self, 1)
-      @players[:maker] = player_one
-      player_two = @p2_player == 'c' ? ComputerBreaker.new(self, 2) : HumanBreaker.new(self, 2)
-      @players[:breaker] = player_two
+      @players[:maker] = HumanMaker.new(self, 1)
+      @players[:breaker] = @p2_player == 'c' ? ComputerBreaker.new(self, 2) : HumanBreaker.new(self, 2)
     end
   end
 
