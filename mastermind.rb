@@ -44,3 +44,5 @@ game.reveal_players
 
 game.players[:breaker].test_breaker
 game.players[:maker].test_maker
+puts game.players[:maker].create_random_sequence
+p game.players[:maker].create_sequence

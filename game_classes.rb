@@ -5,7 +5,18 @@ module GameClasses
   # Codemaker Module
   module Codemaker
     def create_sequence
-      # create four-number code
+      puts ' '
+      puts 'Please create and input a 4-digit code'
+      puts 'Example: 3731'
+      gets.chomp.to_s.split('').map(&:to_i)
+    end
+
+    def create_random_sequence
+      sequence = []
+      4.times do
+        sequence << rand(10)
+      end
+      sequence
     end
 
     def test_maker
