@@ -8,7 +8,7 @@ class Game
   include GameClasses
   include GameText
 
-  attr_reader :players, :p1_role
+  attr_reader :players, :p1_role, :secret_code
 
   def initialize
     prompt_player_role
@@ -32,6 +32,10 @@ class Game
     end
   end
 
+  def set_code
+    @secret_code = @players[:maker].is_ai ? @players[:maker].create_random_sequence : @players[:maker].create_sequence
+  end
+
   def reveal_players
     p @players
   end
@@ -46,3 +50,5 @@ game.players[:breaker].test_breaker
 game.players[:maker].test_maker
 puts game.players[:maker].create_random_sequence
 p game.players[:maker].create_sequence
+game.set_code
+p game.secret_code

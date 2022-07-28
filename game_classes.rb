@@ -27,7 +27,10 @@ module GameClasses
   # Codebreaker Module
   module Codebreaker
     def guess_code
-      # gets input from user (or random for AI?)
+      puts ' '
+      puts 'Please input your code guess'
+      puts 'Example: 3731'
+      gets.chomp.to_s.split('').map(&:to_i)
     end
 
     def test_breaker
@@ -37,11 +40,12 @@ module GameClasses
 
   # Player Superclass
   class Player
-    attr_reader :role
+    attr_reader :role, :is_ai
 
     def initialize(game, player_no)
       @game = game
       @player_no = player_no
+      @is_ai = false
     end
   end
 
@@ -58,10 +62,20 @@ module GameClasses
   # Computer Codebreaker Subclass
   class ComputerBreaker < Player
     include Codebreaker
+
+    def initialize(game, player_no)
+      super
+      @is_ai = true
+    end
   end
 
   # Computer Codemaker Subclass
   class ComputerMaker < Player
     include Codemaker
+
+    def initialize(game, player_no)
+      super
+      @is_ai = true
+    end
   end
 end
