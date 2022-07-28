@@ -32,8 +32,24 @@ class Game
     @secret_code = @players[:maker].is_ai ? @players[:maker].create_random_sequence : @players[:maker].create_sequence
   end
 
-  def reveal_players
-    p @players
+  def retrieve_guess
+    @guess = players[:breaker].guess_code
+    @clue = []
+  end
+
+  def evaluate_guess
+    guess = @guess.dup
+    code = @secret_code.dup
+    code.each_with_index do |num, idx|
+      next unless num == guess[idx]
+
+      @clue << 'X'
+      code.delete_at(idx)
+      guess.delete_at(idx)
+    end
+
+    # Need to create logic for near match
+    # Probably should find a more efficient way to find perfect match
   end
 end
 
