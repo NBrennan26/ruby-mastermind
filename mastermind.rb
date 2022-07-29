@@ -8,7 +8,7 @@ class Game
   include GameClasses
   include GameText
 
-  attr_reader :players, :p1_role, :secret_code
+  attr_reader :players, :p1_role, :secret_code, :previous_clues, :previous_guesses
 
   def initialize
     prompt_player_role
@@ -16,6 +16,8 @@ class Game
     prompt_player_two_class
     @p2_player = gets.chomp
     @players = {}
+    @previous_guesses = []
+    @previous_clues = []
   end
 
   def create_roles
@@ -38,29 +40,48 @@ class Game
   end
 
   def evaluate_guess
-    guess = @guess.dup
-    code = @secret_code.dup
-    code.each_with_index do |num, idx|
-      next unless num == guess[idx]
+    matched_code_indices = []
+    matched_guess_indices = []
+    @secret_code.each_with_index do |num, idx|
+      next unless num == @guess[idx]
 
       @clue << 'X'
-      code.delete_at(idx)
-      guess.delete_at(idx)
+      matched_code_indices << idx
+      matched_guess_indices << idx
+    end
+    @secret_code.each_with_index do |num, idx|
+      for j in 0..3
+        next unless num == @guess[j] && !matched_code_indices.include?(idx) && !matched_guess_indices.include?(j)
+
+        @clue << 'O'
+        matched_code_indices << idx
+        matched_guess_indices << j
+      end
     end
 
-    # Need to create logic for near match
-    # Probably should find a more efficient way to find perfect match
+    record_round
+  end
+
+  def record_round
+    @previous_guesses << @guess
+    @previous_clues << @clue
   end
 end
 
 # Play commands
 game = Game.new
 game.create_roles
-game.reveal_players
+p game.players
 
-game.players[:breaker].test_breaker
-game.players[:maker].test_maker
-puts game.players[:maker].create_random_sequence
-p game.players[:maker].create_sequence
+# game.players[:breaker].test_breaker
+# game.players[:maker].test_maker
+# puts game.players[:maker].create_random_sequence
+# p game.players[:maker].create_sequence
 game.set_code
 p game.secret_code
+
+puts 'Retrieving Guess and processing'
+game.retrieve_guess
+game.evaluate_guess
+p game.previous_clues
+p game.previous_guesses
