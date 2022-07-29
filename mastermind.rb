@@ -49,24 +49,24 @@ class Game
     record_round
   end
 
-  def check_exact_match(matched_code_indices, matched_guess_indices)
+  def check_exact_match(code_indices, guess_indices)
     @secret_code.each_with_index do |num, idx|
       next unless num == @guess[idx]
 
       @clue << 'X'
-      matched_code_indices << idx
-      matched_guess_indices << idx
+      code_indices << idx
+      guess_indices << idx
     end
   end
 
-  def check_near_match(matched_code_indices, matched_guess_indices)
-    @secret_code.each_with_index do |num, idx|
-      for j in 0..3
-        next unless num == @guess[j] && !matched_code_indices.include?(idx) && !matched_guess_indices.include?(j)
+  def check_near_match(code_indices, guess_indices)
+    @secret_code.each_with_index do |code_num, idx|
+      @guess.each_with_index do |guess_no, guess_idx|
+        next unless code_num == guess_no && !code_indices.include?(idx) && !guess_indices.include?(guess_idx)
 
         @clue << 'O'
-        matched_code_indices << idx
-        matched_guess_indices << j
+        code_indices << idx
+        guess_indices << guess_idx
       end
     end
   end
