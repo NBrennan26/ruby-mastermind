@@ -42,6 +42,14 @@ class Game
   def evaluate_guess
     matched_code_indices = []
     matched_guess_indices = []
+
+    check_exact_match(matched_code_indices, matched_guess_indices)
+    check_near_match(matched_code_indices, matched_guess_indices)
+
+    record_round
+  end
+
+  def check_exact_match(matched_code_indices, matched_guess_indices)
     @secret_code.each_with_index do |num, idx|
       next unless num == @guess[idx]
 
@@ -49,6 +57,9 @@ class Game
       matched_code_indices << idx
       matched_guess_indices << idx
     end
+  end
+
+  def check_near_match(matched_code_indices, matched_guess_indices)
     @secret_code.each_with_index do |num, idx|
       for j in 0..3
         next unless num == @guess[j] && !matched_code_indices.include?(idx) && !matched_guess_indices.include?(j)
@@ -58,8 +69,6 @@ class Game
         matched_guess_indices << j
       end
     end
-
-    record_round
   end
 
   def record_round
