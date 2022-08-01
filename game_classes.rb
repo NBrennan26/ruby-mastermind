@@ -11,14 +11,6 @@ module GameClasses
       puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
     end
-
-    def create_random_sequence
-      sequence = []
-      4.times do
-        sequence << rand(1..6)
-      end
-      sequence
-    end
   end
 
   # Codebreaker Module
@@ -29,6 +21,17 @@ module GameClasses
       puts 'Must be a 4-digit number, with each digit between 1-6'
       puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
+    end
+  end
+
+  # Computer Module
+  module Computer
+    def create_random_sequence
+      sequence = []
+      4.times do
+        sequence << rand(1..6)
+      end
+      sequence
     end
   end
 
@@ -56,16 +59,22 @@ module GameClasses
   # Computer Codebreaker Subclass
   class ComputerBreaker < Player
     include Codebreaker
+    include Computer
 
     def initialize(game, player_no)
       super
       @is_ai = true
+    end
+
+    def guess_code
+      create_random_sequence.to_s.split('').map(&:to_i)
     end
   end
 
   # Computer Codemaker Subclass
   class ComputerMaker < Player
     include Codemaker
+    include Computer
 
     def initialize(game, player_no)
       super
