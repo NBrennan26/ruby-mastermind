@@ -7,7 +7,7 @@ module GameClasses
     def create_sequence
       puts ' '
       puts 'CODEMAKER: Please create the Secret Code'
-      puts 'Must be a 4-digit number, each with digit between 1-6'
+      puts 'Must be a 4-digit number, with each digit between 1-6'
       puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
     end
@@ -26,7 +26,7 @@ module GameClasses
     def guess_code
       puts ' '
       puts 'CODEBREAKER: Please input your guess'
-      puts 'Must be a 4-digit number, each with digit between 1-6'
+      puts 'Must be a 4-digit number, with each digit between 1-6'
       puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
     end
