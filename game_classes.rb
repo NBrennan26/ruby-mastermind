@@ -40,7 +40,7 @@ module GameClasses
 
   # Player Superclass
   class Player
-    attr_reader :role, :is_ai
+    attr_reader :role, :is_ai, :player_no
 
     def initialize(game, player_no)
       @game = game
