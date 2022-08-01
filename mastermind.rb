@@ -2,11 +2,13 @@
 
 require_relative 'game_classes'
 require_relative 'game_text'
+require_relative 'game_board'
 
 # Main Class with most game-driving logic
 class Game
   include GameClasses
   include GameText
+  include GameBoard
 
   attr_reader :players, :p1_role, :secret_code, :previous_clues, :previous_guesses
 
@@ -75,6 +77,10 @@ class Game
     @previous_guesses << @guess
     @previous_clues << @clue
   end
+
+  def show_board
+    display_board(@previous_guesses, previous_clues)
+  end
 end
 
 # Play commands
@@ -82,10 +88,6 @@ game = Game.new
 game.create_roles
 p game.players
 
-# game.players[:breaker].test_breaker
-# game.players[:maker].test_maker
-# puts game.players[:maker].create_random_sequence
-# p game.players[:maker].create_sequence
 game.set_code
 p game.secret_code
 
@@ -94,3 +96,5 @@ game.retrieve_guess
 game.evaluate_guess
 p game.previous_clues
 p game.previous_guesses
+
+game.show_board
