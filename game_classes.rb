@@ -6,21 +6,18 @@ module GameClasses
   module Codemaker
     def create_sequence
       puts ' '
-      puts 'Please create and input a 4-digit code'
-      puts 'Example: 3731'
+      puts 'CODEMAKER: Please create the Secret Code'
+      puts 'Must be a 4-digit number, each with digit between 1-6'
+      puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
     end
 
     def create_random_sequence
       sequence = []
       4.times do
-        sequence << rand(10)
+        sequence << rand(1..6)
       end
       sequence
-    end
-
-    def test_maker
-      puts 'Maker included'
     end
   end
 
@@ -28,13 +25,10 @@ module GameClasses
   module Codebreaker
     def guess_code
       puts ' '
-      puts 'Please input your code guess'
-      puts 'Example: 3731'
+      puts 'CODEBREAKER: Please input your guess'
+      puts 'Must be a 4-digit number, each with digit between 1-6'
+      puts 'Example: 3631'
       gets.chomp.to_s.split('').map(&:to_i)
-    end
-
-    def test_breaker
-      puts 'Breaker included'
     end
   end
 

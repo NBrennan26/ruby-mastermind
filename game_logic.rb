@@ -19,7 +19,7 @@ class Game
   include GameBoard
   include Play
 
-  attr_reader :players, :p1_role, :secret_code, :previous_clues, :previous_guesses
+  attr_reader :players, :previous_clues, :previous_guesses
 
   def initialize
     prompt_player_role
@@ -31,6 +31,19 @@ class Game
     @previous_clues = []
     @game_over = false
   end
+
+  def play_game
+    create_roles
+    set_code
+    until @game_over
+      retrieve_guess
+      evaluate_guess
+      check_for_win
+      process_end_game
+    end
+  end
+
+  private
 
   def create_roles
     if @p1_role == 'b'
@@ -47,7 +60,6 @@ class Game
   end
 
   def retrieve_guess
-    wipe_screen
     show_board
     @guess = players[:breaker].guess_code
     @clue = []
@@ -61,7 +73,6 @@ class Game
     check_near_match(matched_code_indices, matched_guess_indices)
 
     record_round
-    wipe_screen
     show_board
   end
 
@@ -93,6 +104,8 @@ class Game
   end
 
   def show_board
+    wipe_screen
+    display_game_key
     display_board(@previous_guesses, previous_clues)
   end
 
@@ -111,32 +124,22 @@ class Game
   end
 
   def process_end_game
-    if @game_over
-      puts "#{@winner.player_no == 1 ? 'PLAYER ONE' : 'PLAYER TWO'} Wins!" if @game_over
-      play_again
-    end
+    return unless @game_over
+
+    puts "#{@winner.player_no == 1 ? 'PLAYER ONE' : 'PLAYER TWO'} Wins!" if @game_over
+    play_again
   end
 
   def play_again
-    puts ' '
-    puts 'Do you want to play again'
-    puts "Press 'y' for YES or press 'n' for NO"
+    prompt_play_again
     again = gets.chomp
     if again == 'y'
       @game_over = false
       @winner = ''
+      wipe_screen
       begin_game
-    end
-  end
-
-  def play_game
-    create_roles
-    set_code
-    until @game_over
-      retrieve_guess
-      evaluate_guess
-      check_for_win
-      process_end_game
+    else
+      exit
     end
   end
 
