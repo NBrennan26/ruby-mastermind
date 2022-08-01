@@ -20,6 +20,7 @@ class Game
     @players = {}
     @previous_guesses = []
     @previous_clues = []
+    @game_over = false
   end
 
   def create_roles
@@ -37,6 +38,8 @@ class Game
   end
 
   def retrieve_guess
+    wipe_screen
+    show_board
     @guess = players[:breaker].guess_code
     @clue = []
   end
@@ -49,6 +52,8 @@ class Game
     check_near_match(matched_code_indices, matched_guess_indices)
 
     record_round
+    wipe_screen
+    show_board
   end
 
   def check_exact_match(code_indices, guess_indices)
@@ -81,6 +86,26 @@ class Game
   def show_board
     display_board(@previous_guesses, previous_clues)
   end
+
+  def wipe_screen
+    puts "\e[H\e[2J"
+  end
+
+  def check_for_win
+    if @clue == %w[X X X X]
+      @winner = @players[:breaker]
+      @game_over = true
+    elsif @previous_guesses.length == 12
+      @winner = @players[:maker]
+      @game_over = true
+    end
+  end
+
+  def process_end_game
+    if @game_over
+      puts "#{@winner.player_no == 1 ? 'PLAYER ONE' : 'PLAYER TWO'} Wins!"
+    end
+  end
 end
 
 # Play commands
@@ -94,7 +119,5 @@ p game.secret_code
 puts 'Retrieving Guess and processing'
 game.retrieve_guess
 game.evaluate_guess
-p game.previous_clues
-p game.previous_guesses
-
-game.show_board
+# p game.previous_clues
+# p game.previous_guesses
